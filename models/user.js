@@ -21,6 +21,7 @@ exports.signup = async (isHospital, isLab, information) => {
         return apiResponse.createModelRes(status, error);
     }
 
+    delete contractRes.Password;
     return apiResponse.createModelRes(200, 'Success', contractRes);
 };
 
@@ -37,8 +38,9 @@ exports.signin = async (isHospital, isLab, information) => {
     }
     console.log(contractRes);
     const { Name, UserRole } = contractRes;
+    delete contractRes.Password;
     const accessToken = authenticateUtil.generateAccessToken({ id, UserRole, Name });
-    return apiResponse.createModelRes(200, 'Success', { id, UserRole, Name, accessToken });
+    return apiResponse.createModelRes(200, 'Success', { ...contractRes, accessToken });
 };
 
 // exports.getAllUser = async (isHospital, isLab, information) => {
